@@ -1,122 +1,629 @@
+
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gestion NFC – KING DIAGNOSTICS</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10243d">
+
+<title>Carte professionnelle | KING DIAGNOSTICS</title>
+
 <style>
-:root{--gold:#d6ad55;--gold2:#f0d48d;--bg:#101010;--panel:#1b1b1b;--muted:#bcb5a8}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#30291e,#101010 55%);color:#f8f4ea;font:15px Arial,sans-serif;padding:24px}
-main{max-width:1050px;margin:auto}.hero,.panel{background:#1b1b1b;border:1px solid #604a25;border-radius:18px;padding:22px;margin-bottom:18px}
-.brand{color:var(--gold2);font-weight:800;letter-spacing:2px;font-size:22px}.tag{color:var(--muted);font-size:12px;letter-spacing:1.5px;margin-top:5px}
-h1{font-size:25px;margin:22px 0 8px}h2{font-size:18px;color:var(--gold2);margin:0 0 14px}
-p{color:#c9c2b6;line-height:1.55}.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
-.step{background:#111;border:1px solid #403522;border-radius:12px;padding:13px;color:#ddd;font-size:13px}
-label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}
-input[type=text],input[type=file]{width:100%;padding:12px;border-radius:9px;border:1px solid #5c4a2d;background:#0e0e0e;color:white}
-button{background:var(--gold);color:#17130c;border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer;margin:10px 8px 0 0}
-button.secondary{background:#30291d;color:var(--gold2);border:1px solid #6d542b}
-.status{padding:12px;background:#111;border:1px solid #403522;border-radius:10px;color:var(--gold2);margin-top:12px;min-height:42px}
-.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}.stat{background:#111;border:1px solid #403522;padding:12px 16px;border-radius:10px;min-width:130px}.stat b{display:block;color:var(--gold2);font-size:23px}.stat span{color:var(--muted);font-size:11px}
-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}th,td{text-align:left;padding:9px;border-bottom:1px solid #3a3020}th{color:var(--gold2)}td{color:#ddd}
-.small{font-size:11px;color:#aaa}.hidden{display:none}
-@media(max-width:600px){body{padding:12px}.hero,.panel{padding:16px}h1{font-size:21px}table{font-size:11px}}
-</style></head><body><main>
-<section class="hero">
-<div class="brand">KING DIAGNOSTICS</div><div class="tag">SYSTÈME CENTRALISÉ DE CARTES NFC DU PERSONNEL</div>
-<h1>Générateur de l'annuaire et des fiches NFC</h1>
-<p>Importez votre base Excel RH, contrôlez les salariés publiables, puis générez un annuaire HTML public contenant une fiche individuelle par matricule NFC.</p>
-<div class="steps">
-<div class="step"><b>1. Excel</b><br>Votre classeur reste la base de référence.</div>
-<div class="step"><b>2. Import</b><br>Chargez le fichier .xlsx actualisé.</div>
-<div class="step"><b>3. Génération</b><br>Créez le portail public autonome.</div>
-<div class="step"><b>4. NFC</b><br>Programmez chaque puce avec son URL individuelle.</div>
-</div></section>
-<section class="panel">
-<h2>1 — Importer la base du personnel</h2>
-<label for="excel">Fichier Excel KING DIAGNOSTICS</label><input id="excel" type="file" accept=".xlsx,.xls">
-<label for="baseUrl">URL publique prévue pour l'annuaire (à renseigner après choix de l'hébergement)</label>
-<input id="baseUrl" type="text" value="https://VOTRE-DOMAINE/annuaire.html" placeholder="https://votre-domaine.com/annuaire.html">
-<button id="load">Importer et vérifier Excel</button>
-<div id="status" class="status">En attente du fichier Excel.</div>
-<div id="stats" class="stats hidden"></div>
-</section>
-<section class="panel hidden" id="previewPanel">
-<h2>2 — Aperçu des salariés publiables</h2>
-<p class="small">Seuls les salariés avec Statut = Actif et Afficher dans annuaire = Oui seront inclus dans le fichier public.</p>
-<div style="overflow-x:auto"><table><thead><tr><th>Matricule</th><th>Nom</th><th>Fonction</th><th>Département</th><th>URL NFC</th></tr></thead><tbody id="rows"></tbody></table></div>
-<button id="generate">Générer l'annuaire HTML public</button>
-<button class="secondary" id="csv">Exporter les URL NFC en CSV</button>
-<div id="done" class="status"></div>
-</section>
-<p class="small">Confidentialité : publiez uniquement des coordonnées professionnelles pour lesquelles KING DIAGNOSTICS dispose de l'autorisation nécessaire. Ce générateur fonctionne localement dans le navigateur ; le fichier Excel n'est pas transmis à un serveur par cette page. Une connexion Internet est nécessaire pour charger la bibliothèque de lecture Excel.</p>
-</main>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script>
-let people=[];
-const $=id=>document.getElementById(id);
-const clean=v=>String(v??'').trim();
-function validHttp(v){try{let u=new URL(clean(v));return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function getBase(){return clean($('baseUrl').value).replace(/\/+$/,'')}
-function personUrl(p){return getBase()+'?id='+encodeURIComponent(p.id)}
-$('load').onclick=()=>{
- const f=$('excel').files[0]; if(!f){$('status').textContent='Sélectionnez d’abord le classeur Excel.';return}
- if(typeof XLSX==='undefined'){$('status').textContent='La bibliothèque Excel n’a pas été chargée. Vérifiez votre connexion puis rechargez la page.';return}
- const reader=new FileReader();
- reader.onload=e=>{
-  try{
-   const wb=XLSX.read(e.target.result,{type:'array'});
-   const sh=wb.Sheets['Personnel'];if(!sh)throw Error('Feuille Personnel introuvable');
-   const matrix=XLSX.utils.sheet_to_json(sh,{header:1,defval:''});
-   const heads=matrix[0].map(x=>clean(x));
-   const records=matrix.slice(1).filter(r=>r.some(v=>clean(v))).map(r=>Object.fromEntries(heads.map((h,i)=>[h,clean(r[i])])));
-   const seen=new Set(),errors=[];
-   records.forEach((p,i)=>{const id=p['Matricule NFC'];if(!id)errors.push('Ligne Excel '+(i+2)+' : matricule manquant.');else if(seen.has(id.toLowerCase()))errors.push('Matricule en double : '+id);else seen.add(id.toLowerCase());});
-   if(errors.length){$('status').textContent='Corrigez les erreurs avant génération : '+errors.slice(0,8).join(' ');return}
-   people=records.filter(p=>p['Statut (Actif/Inactif)'].toLowerCase()==='actif'&&p['Afficher dans annuaire (Oui/Non)'].toLowerCase()==='oui').map(p=>({
-    id:p['Matricule NFC'],nom:p['Nom'],prenom:p['Prénom'],fonction:p['Fonction (FR)'],fonctionEn:p['Fonction (EN)'],departement:p['Département'],email:p['E-mail professionnel'],telephone:p['Téléphone professionnel'],website:p['Site web société'],facebook:p['Facebook société'],linkedin:p['LinkedIn professionnel'],photo:p['URL photo']
-   }));
-   if(!people.length){$('status').textContent='Aucun salarié publiable. Vérifiez les colonnes Statut et Afficher dans annuaire.';return}
-   $('status').textContent='Import réussi. '+records.length+' ligne(s) avec données ; '+people.length+' salarié(s) publiable(s).';
-   $('stats').classList.remove('hidden');$('stats').innerHTML='<div class="stat"><b>'+records.length+'</b><span>Fiches renseignées</span></div><div class="stat"><b>'+people.length+'</b><span>Fiches publiables</span></div><div class="stat"><b>'+new Set(people.map(p=>p.departement).filter(Boolean)).size+'</b><span>Départements représentés</span></div>';
-   $('previewPanel').classList.remove('hidden');
-   $('rows').innerHTML=people.map(p=>'<tr><td>'+esc(p.id)+'</td><td>'+esc(p.prenom+' '+p.nom)+'</td><td>'+esc(p.fonction)+'</td><td>'+esc(p.departement)+'</td><td>'+esc(personUrl(p))+'</td></tr>').join('');
-   $('done').textContent='';
-  }catch(err){$('status').textContent='Lecture impossible : '+err.message+'. Utilisez le modèle Excel fourni.'}
- };
- reader.readAsArrayBuffer(f);
-};
-function publicPage(data,base){
- const payload=JSON.stringify(data).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
- const safeBase=JSON.stringify(base);
- return `<!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101010"><title>Annuaire – KING DIAGNOSTICS</title>
-<style>
-:root{--gold:#d6ad55;--gold2:#f0d48d;--muted:#b9b3a7}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#30291e,#101010 55%);color:#f8f4ea;font:15px Arial,sans-serif;padding:20px}.wrap{max-width:1000px;margin:auto}.head,.profile,.person{background:#1b1b1b;border:1px solid #604a25;border-radius:18px;padding:22px}.head{margin-bottom:18px}.brand{color:var(--gold2);font-weight:800;letter-spacing:2px;font-size:22px}.tag{font-size:11px;color:#bbb;letter-spacing:1.5px;margin-top:5px}.head h1{font-size:25px;margin:22px 0 8px}.head p{color:#c9c2b6;line-height:1.5}.search{width:100%;padding:13px;border:1px solid #6b542c;border-radius:10px;background:#0d0d0d;color:white;margin-top:12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:13px}.person{padding:17px}.person a{color:inherit;text-decoration:none;display:block}.avatar{width:54px;height:54px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold2);font-size:20px;margin-bottom:12px;background:#30291d}.person h2{font-size:17px;margin:0 0 6px}.role{color:var(--gold2);font-size:13px}.dept{color:#aaa;font-size:12px;margin-top:8px}.open{display:inline-block;margin-top:13px;color:var(--gold2);font-size:12px}.profile{max-width:620px;margin:20px auto;text-align:center}.profile .avatar{width:82px;height:82px;font-size:27px;margin:0 auto 15px}.profile h1{font-size:27px;margin:0 0 8px}.profile .role{font-size:14px;line-height:1.6}.profile .dept{margin:10px 0 18px}.links{display:grid;gap:9px;text-align:left}.links a{display:block;padding:13px;border:1px solid #463820;border-radius:10px;color:#f5eddd;text-decoration:none;overflow-wrap:anywhere}.links a b{color:var(--gold2);display:block;font-size:10px;letter-spacing:1px;margin-bottom:4px}.back{display:inline-block;color:var(--gold2);margin:8px 0 0;text-decoration:none}.foot{text-align:center;color:#aaa;font-size:10px;letter-spacing:1.5px;margin:22px}.hidden{display:none!important}.empty{color:#bbb;padding:20px}.photo{width:82px;height:82px;object-fit:cover;border-radius:50%;border:1px solid var(--gold);margin-bottom:15px}@media(max-width:500px){body{padding:12px}.head,.profile{padding:17px}}
-</style></head><body><main class="wrap">
-<header class="head"><div class="brand">KING DIAGNOSTICS</div><div class="tag">RAPID TESTS · BETTER CARE</div><h1>Annuaire professionnel</h1><p>Retrouvez les collaborateurs de SARL KING DIAGNOSTICS et leurs coordonnées professionnelles.</p><input class="search" id="search" placeholder="Rechercher un nom, une fonction ou un département…"></header>
-<section id="directory"><div class="grid" id="grid"></div><div id="empty" class="empty hidden">Aucun collaborateur ne correspond à votre recherche.</div></section>
-<section id="profile" class="profile hidden"></section>
-<footer class="foot">QUALITY · PERFORMANCE · INNOVATION</footer></main>
-<script>
-const PEOPLE=${payload};const BASE=${safeBase};const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const initials=p=>(p.prenom+' '+p.nom).trim().split(/\\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
-const url=(id)=>BASE+'?id='+encodeURIComponent(id);
-function card(p){return '<article class="person"><a href="'+esc(url(p.id))+'"><div class="avatar">'+esc(initials(p))+'</div><h2>'+esc(p.prenom+' '+p.nom)+'</h2><div class="role">'+esc(p.fonction)+'</div><div class="dept">'+esc(p.departement)+'</div><span class="open">Consulter la fiche →</span></a></article>'}
-function renderList(){const q=$('search').value.toLowerCase().trim();const list=PEOPLE.filter(p=>(p.prenom+' '+p.nom+' '+p.fonction+' '+p.departement+' '+p.id).toLowerCase().includes(q));$('grid').innerHTML=list.map(card).join('');$('empty').classList.toggle('hidden',list.length>0)}
-function renderProfile(p){$('directory').classList.add('hidden');$('search').classList.add('hidden');const photo=p.photo&&/^https?:\\/\\//i.test(p.photo)?'<img class="photo" src="'+esc(p.photo)+'" alt="Photo de '+esc(p.prenom+' '+p.nom)+'">':'<div class="avatar">'+esc(initials(p))+'</div>';const link=(label,value,href)=>value?'<a href="'+esc(href)+'" target="_blank" rel="noopener"><b>'+label+'</b>'+esc(value)+'</a>':'';const mail=p.email?'<a href="mailto:'+esc(p.email)+'"><b>E-MAIL PROFESSIONNEL</b>'+esc(p.email)+'</a>':'';const tel=p.telephone?'<a href="tel:'+esc(p.telephone.replace(/[^+0-9]/g,''))+'"><b>TÉLÉPHONE PROFESSIONNEL</b>'+esc(p.telephone)+'</a>':'';$('profile').innerHTML='<a class="back" href="'+esc(BASE)+'">← Retour à l’annuaire</a>'+photo+'<h1>'+esc(p.prenom+' '+p.nom)+'</h1><div class="role">'+esc(p.fonction)+'<br>'+esc(p.fonctionEn)+'</div><div class="dept">'+esc(p.departement)+'</div><div class="links">'+mail+tel+link('SITE WEB DE LA SOCIÉTÉ',p.website,p.website)+link('FACEBOOK',p.facebook,p.facebook)+link('LINKEDIN',p.linkedin,p.linkedin)+'</div>';$('profile').classList.remove('hidden');document.title=p.prenom+' '+p.nom+' | KING DIAGNOSTICS'}
-const id=new URLSearchParams(location.search).get('id');if(id){const p=PEOPLE.find(x=>x.id===id);if(p)renderProfile(p);else{$('directory').classList.add('hidden');$('profile').classList.remove('hidden');$('profile').textContent='Fiche introuvable ou non publiée.'}}else{renderList();$('search').addEventListener('input',renderList)}
-</script></body></html>`;
+:root {
+  --navy: #10243d;
+  --navy2: #183654;
+  --gold: #c7a45b;
+  --paper: #f5f4f0;
+  --ink: #172536;
+  --muted: #687586;
+  --line: #e8e7e1;
 }
-$('generate').onclick=()=>{
- const base=getBase();
- if(!/^https?:\/\//i.test(base)||base.includes('VOTRE-DOMAINE')){$('done').textContent='Renseignez l’URL HTTPS définitive de l’annuaire avant de générer les liens NFC.';return}
- const blob=new Blob([publicPage(people,base)],{type:'text/html;charset=utf-8'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='annuaire_king_diagnostics_public.html';a.click();URL.revokeObjectURL(a.href);
- $('done').textContent='Annuaire public généré. Hébergez ce fichier à l’adresse indiquée, puis programmez chaque puce NFC avec son URL individuelle.';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(145deg,#e9edf1,#f7f6f2 55%,#e8e4da);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 14px;
+}
+
+.card {
+  width: min(100%,430px);
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 22px 65px #10243d25;
+}
+
+.top {
+  background: var(--navy);
+  color: white;
+  padding: 27px 26px 31px;
+  text-align: center;
+  position: relative;
+}
+
+.top:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  background: white;
+  border-radius: 13px;
+  padding: 5px;
+}
+
+.brand-name {
+  text-align: left;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.brand-name small {
+  display: block;
+  color: #d9c18e;
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-top: 5px;
+}
+
+.avatar {
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  object-fit: cover;
+  background: #e8edf1;
+  margin: 0 auto 14px;
+  display: none;
+}
+
+h1 {
+  font-size: 23px;
+  margin: 0 0 7px;
+  font-weight: 750;
+}
+
+.role {
+  color: #e2c98e;
+  font-size: 14px;
+  margin: 0;
+}
+
+.slogan {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: #d5dce4;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+.body {
+  padding: 25px;
+}
+
+.contact {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-width: 0;
+}
+
+.ico {
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
+  border-radius: 10px;
+  background: #f1f3f5;
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+
+.info span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+
+.info a {
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 10px;
+  border-radius: 11px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 12px;
+  border: 1px solid var(--navy);
+  background: var(--navy);
+  color: white;
+  min-height: 45px;
+}
+
+.btn.gold {
+  background: white;
+  color: var(--navy);
+  border-color: #d7c08d;
+}
+
+.btn.wide {
+  grid-column: 1/-1;
+}
+
+.footer {
+  text-align: center;
+  padding: 0 20px 21px;
+  color: #8a929c;
+  font-size: 10px;
+  letter-spacing: .5px;
+}
+
+.edit {
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.edit summary {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fields {
+  display: grid;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.fields input {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.save {
+  width: 100%;
+  border: 0;
+  background: var(--gold);
+  color: #182b40;
+  padding: 12px;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.note {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 9px 0 0;
+}
+
+@media(max-width:360px) {
+  .body { padding: 20px 17px; }
+  .top { padding-left: 16px; padding-right: 16px; }
+  .brand-name { font-size: 14px; }
+}
+</style>
+</head>
+
+<body>
+
+<main class="card">
+
+<header class="top">
+
+  <div class="brand">
+
+    <img
+      class="logo"
+      id="companyLogo"
+      src="logo-king.png"
+      alt="Logo KING DIAGNOSTICS"
+      onerror="this.style.display='none'"
+    >
+
+    <div class="brand-name">
+      KING DIAGNOSTICS
+      <small>DISPOSITIFS MÉDICAUX</small>
+    </div>
+
+  </div>
+
+  <img class="avatar" id="photo" alt="Photo professionnelle">
+
+  <h1 id="fullName">Nom Prénom</h1>
+
+  <p class="role" id="jobTitle">Poste occupé</p>
+
+  <div class="slogan">
+    Innovation • Qualité • Performance
+  </div>
+
+</header>
+
+<section class="body">
+
+  <div class="contact">
+
+    <div class="info">
+      <div class="ico">☎</div>
+      <div>
+        <span>Téléphone</span>
+        <a id="phoneLink" href="tel:+213">+213</a>
+      </div>
+    </div>
+
+    <div class="info">
+      <div class="ico">✉</div>
+      <div>
+        <span>E-mail</span>
+        <a id="emailLink" href="mailto:">Adresse e-mail</a>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="actions">
+
+    <a class="btn" id="saveContact" href="#">
+      ＋ Enregistrer le contact
+    </a>
+
+    <a class="btn gold" id="websiteBtn"
+       href="#" target="_blank" rel="noopener">
+      🌐 Site web
+    </a>
+
+    <a class="btn gold wide" id="facebookBtn"
+       href="#" target="_blank" rel="noopener">
+      f &nbsp; Page Facebook
+    </a>
+
+  </nav>
+
+  <details class="edit">
+
+    <summary>
+      Modifier les informations de cette carte
+    </summary>
+
+    <div class="fields">
+
+      <input id="editName" placeholder="Nom et prénom">
+
+      <input id="editJob" placeholder="Poste occupé">
+
+      <input id="editPhone" placeholder="Téléphone">
+
+      <input id="editEmail" type="email" placeholder="Adresse e-mail">
+
+      <input id="editWebsite" placeholder="Lien du site web">
+
+      <input id="editFacebook" placeholder="Lien Facebook">
+
+      <input id="editPhoto" placeholder="URL de la photo">
+
+      <button class="save" id="applyBtn" type="button">
+        Appliquer les modifications
+      </button>
+
+    </div>
+
+    <p class="note">
+      Les informations sont personnalisables pour chaque collaborateur.
+      Les modifications seront transmises à Google Sheets.
+    </p>
+
+  </details>
+
+</section>
+
+<footer class="footer">
+  KING DIAGNOSTICS · Carte professionnelle NFC
+</footer>
+
+</main>
+
+<script>
+
+/* =====================================
+   CONFIGURATION GOOGLE APPS SCRIPT
+===================================== */
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbxzaF2iEjI7ovvxS-xHNokPfx57pV3aBEW8WYLAj0htOpr5VRiuFSbT70vABOjHi8EB/exec";
+
+
+/* =====================================
+   LIENS ENTREPRISE
+===================================== */
+
+const COMPANY_WEBSITE = "https://king-diagnostics.com";
+
+const COMPANY_FACEBOOK = "https://www.facebook.com/";
+
+
+/* =====================================
+   INFORMATIONS DU COLLABORATEUR
+===================================== */
+
+const params = new URLSearchParams(location.search);
+
+const defaults = {
+
+  nom: params.get("nom") || "Nom Prénom",
+
+  poste: params.get("poste") || "Poste occupé",
+
+  telephone: params.get("telephone") || "+213",
+
+  email: params.get("email") || "",
+
+  site: params.get("site") || COMPANY_WEBSITE,
+
+  facebook: params.get("facebook") || COMPANY_FACEBOOK,
+
+  photo: params.get("photo") || ""
+
 };
-$('csv').onclick=()=>{
- const base=getBase();const lines=[['Matricule NFC','Nom complet','Fonction','URL NFC'],...people.map(p=>[p.id,p.prenom+' '+p.nom,p.fonction,base+'?id='+p.id])];
- const csv=lines.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');
- const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='liens_NFC_personnel_KING_DIAGNOSTICS.csv';a.click();URL.revokeObjectURL(a.href);
-};
-</script></body></html>
+
+
+/* =====================================
+   AFFICHAGE DES INFORMATIONS
+===================================== */
+
+function safeUrl(value) {
+
+  if (!value) return "#";
+
+  return /^https?:\/\//i.test(value)
+    ? value
+    : "https://" + value;
+
+}
+
+
+function render(data) {
+
+  document.getElementById("fullName").textContent = data.nom;
+
+  document.getElementById("jobTitle").textContent = data.poste;
+
+  const tel = document.getElementById("phoneLink");
+
+  tel.textContent = data.telephone;
+
+  tel.href = "tel:" + data.telephone.replace(/[^\d+]/g, "");
+
+  const mail = document.getElementById("emailLink");
+
+  mail.textContent = data.email || "Non renseigné";
+
+  mail.href = data.email ? "mailto:" + data.email : "#";
+
+  document.getElementById("websiteBtn").href = safeUrl(data.site);
+
+  document.getElementById("facebookBtn").href = safeUrl(data.facebook);
+
+  const photo = document.getElementById("photo");
+
+  if (data.photo) {
+
+    photo.src = data.photo;
+
+    photo.style.display = "block";
+
+  } else {
+
+    photo.style.display = "none";
+
+  }
+
+  const vcf = [
+
+    "BEGIN:VCARD",
+
+    "VERSION:3.0",
+
+    "FN:" + data.nom,
+
+    "TITLE:" + data.poste,
+
+    "TEL;TYPE=CELL:" + data.telephone,
+
+    "EMAIL:" + data.email,
+
+    "END:VCARD"
+
+  ].join("\r\n");
+
+  const contactLink = document.getElementById("saveContact");
+
+  if (contactLink.dataset.url) {
+    URL.revokeObjectURL(contactLink.dataset.url);
+  }
+
+  const blob = new Blob([vcf], {type:"text/vcard"});
+
+  const url = URL.createObjectURL(blob);
+
+  contactLink.href = url;
+
+  contactLink.dataset.url = url;
+
+  contactLink.download =
+    data.nom.replace(/\s+/g, "_") + ".vcf";
+
+}
+
+
+/* =====================================
+   REMPLISSAGE DU FORMULAIRE
+===================================== */
+
+function fillEditor(data) {
+
+  document.getElementById("editName").value = data.nom;
+
+  document.getElementById("editJob").value = data.poste;
+
+  document.getElementById("editPhone").value = data.telephone;
+
+  document.getElementById("editEmail").value = data.email;
+
+  document.getElementById("editWebsite").value = data.site;
+
+  document.getElementById("editFacebook").value = data.facebook;
+
+  document.getElementById("editPhoto").value = data.photo;
+
+}
+
+
+/* =====================================
+   INITIALISATION
+===================================== */
+
+render(defaults);
+
+fillEditor(defaults);
+
+
+/* =====================================
+   ENREGISTREMENT ET ENVOI GOOGLE SHEETS
+===================================== */
+
+document.getElementById("applyBtn").addEventListener("click", async () => {
+
+  const data = {
+
+    nom: document.getElementById("editName").value.trim(),
+
+    poste: document.getElementById("editJob").value.trim(),
+
+    telephone: document.getElementById("editPhone").value.trim(),
+
+    email: document.getElementById("editEmail").value.trim(),
+
+    site: document.getElementById("editWebsite").value.trim(),
+
+    facebook: document.getElementById("editFacebook").value.trim(),
+
+    photo: document.getElementById("editPhoto").value.trim()
+
+  };
+
+  render(data);
+
+  const q = new URLSearchParams({
+
+    nom: data.nom,
+
+    poste: data.poste,
+
+    telephone: data.telephone,
+
+    email: data.email,
+
+    site: data.site,
+
+    facebook: data.facebook,
+
+    photo: data.photo
+
+  });
+
+  history.replaceState(null, "", "?" + q.toString());
+
+  try {
+
+    await fetch(SCRIPT_URL, {
+
+      method: "POST",
+
+      mode: "no-cors",
+
+      headers: {
+
+        "Content-Type": "text/plain;charset=utf-8"
+
+      },
+
+      body: JSON.stringify(data)
+
+    });
+
+    alert("Demande d'enregistrement envoyée.");
+
+  } catch (error) {
+
+    console.error("Erreur :", error);
+
+    alert("Erreur lors de l'envoi vers Google Sheets.");
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
