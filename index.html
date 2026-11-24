@@ -1,22 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#10243d">
-
-<title>Carte professionnelle | KING DIAGNOSTICS</title>
+<meta name="theme-color" content="#020914">
+<meta name="description" content="Carte professionnelle NFC - KING DIAGNOSTICS">
+<title>MAICHI Maamar | KING DIAGNOSTICS</title>
 
 <style>
 :root {
-  --navy: #10243d;
-  --navy2: #183654;
-  --gold: #c7a45b;
-  --paper: #f5f4f0;
-  --ink: #172536;
-  --muted: #687586;
-  --line: #e8e7e1;
+  --navy: #020914;
+  --navy2: #071d32;
+  --navy3: #0b2942;
+  --gold: #e8b63f;
+  --gold2: #ffdf83;
+  --gold3: #a87922;
+  --white: #ffffff;
+  --muted: #c5cbd3;
 }
 
 * {
@@ -26,40 +26,77 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(145deg,#e9edf1,#f7f6f2 55%,#e8e4da);
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--ink);
+  padding: 25px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  background:
+    radial-gradient(ellipse at 15% 15%, #173b58 0%, transparent 42%),
+    radial-gradient(ellipse at 85% 85%, #142e45 0%, transparent 40%),
+    linear-gradient(145deg, #01050b, #06182a 55%, #020811);
 }
+
+/* CARTE PRINCIPALE */
 
 .card {
-  width: min(100%,430px);
-  background: white;
-  border-radius: 24px;
+  width: min(100%, 430px);
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 22px 65px #10243d25;
+  border-radius: 20px;
+  border: 1px solid #bd9237;
+  background: #04111e;
+  box-shadow:
+    0 0 20px #d5a53630,
+    0 25px 65px #000000a8;
 }
+
+/* EN-TETE */
 
 .top {
-  background: var(--navy);
-  color: white;
-  padding: 27px 26px 31px;
-  text-align: center;
   position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 25px 22px 29px;
+  background:
+    radial-gradient(ellipse at 80% 20%, #16466a 0%, transparent 48%),
+    linear-gradient(120deg, #020710, #09243c 55%, #020914);
 }
 
-.top:after {
+/* COURBES DOREES */
+
+.top::before {
+  content: "";
+  position: absolute;
+  width: 145%;
+  height: 110px;
+  left: -23%;
+  bottom: -63px;
+  border-top: 3px solid var(--gold);
+  border-radius: 50%;
+  transform: rotate(-9deg);
+  box-shadow: 0 -5px 15px #dba93330;
+  pointer-events: none;
+}
+
+.top::after {
   content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 5px;
-  background: linear-gradient(90deg,transparent,var(--gold),transparent);
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold2),
+    var(--gold3),
+    transparent
+  );
 }
+
+/* LOGO */
 
 .brand {
   display: flex;
@@ -67,109 +104,145 @@ body {
   justify-content: center;
   gap: 12px;
   margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .logo {
-  width: 62px;
-  height: 62px;
+  width: 72px;
+  height: 72px;
   object-fit: contain;
-  background: white;
-  border-radius: 13px;
-  padding: 5px;
+  background: #020914;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 4px;
 }
 
 .brand-name {
   text-align: left;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 1.1px;
-  font-size: 17px;
-  line-height: 1.25;
+  font-size: 18px;
+  line-height: 1.3;
 }
 
 .brand-name small {
   display: block;
-  color: #d9c18e;
+  color: var(--gold2);
   font-size: 9px;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   margin-top: 5px;
 }
 
+/* PHOTO */
+
 .avatar {
-  width: 94px;
-  height: 94px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
   border: 3px solid var(--gold);
   object-fit: cover;
-  background: #e8edf1;
-  margin: 0 auto 14px;
-  display: none;
+  background: #10243d;
+  margin: 0 auto 13px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 18px #e8b63f55;
 }
 
+/* NOM ET FONCTION */
+
 h1 {
-  font-size: 23px;
-  margin: 0 0 7px;
-  font-weight: 750;
+  font-size: 25px;
+  margin: 0 0 8px;
+  font-weight: 800;
+  color: white;
+  position: relative;
+  z-index: 2;
 }
 
 .role {
-  color: #e2c98e;
+  color: var(--gold2);
   font-size: 14px;
+  font-weight: bold;
   margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.subtitle {
+  color: #d5dce4;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 5px;
+  position: relative;
+  z-index: 2;
 }
 
 .slogan {
   font-size: 10px;
-  letter-spacing: 1.4px;
-  color: #d5dce4;
+  letter-spacing: 1.5px;
+  color: var(--gold2);
   margin-top: 20px;
   text-transform: uppercase;
+  position: relative;
+  z-index: 2;
 }
 
+/* CONTENU */
+
 .body {
-  padding: 25px;
+  padding: 23px 22px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #102e47, transparent 65%),
+    linear-gradient(145deg, #061727, #020b15);
 }
+
+/* COORDONNEES */
 
 .contact {
   display: grid;
-  gap: 12px;
-  margin-bottom: 22px;
+  gap: 11px;
+  margin-bottom: 19px;
 }
 
 .info {
   display: flex;
   align-items: center;
-  gap: 13px;
-  padding: 12px 13px;
-  border: 1px solid var(--line);
+  gap: 12px;
+  padding: 11px 12px;
+  border: 1px solid #80652d;
   border-radius: 12px;
-  min-width: 0;
+  background: linear-gradient(120deg, #102a40, #061421);
 }
 
 .ico {
-  width: 35px;
-  height: 35px;
-  flex: 0 0 35px;
-  border-radius: 10px;
-  background: #f1f3f5;
-  color: var(--navy);
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffdf79, #c18b27);
+  color: #06111e;
   display: grid;
   place-items: center;
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 .info span {
   display: block;
-  color: var(--muted);
+  color: var(--gold2);
   font-size: 10px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .info a {
-  font-size: 13px;
-  color: var(--ink);
+  font-size: 12px;
+  color: white;
   text-decoration: none;
   overflow-wrap: anywhere;
 }
+
+/* BOUTONS */
 
 .actions {
   display: grid;
@@ -181,45 +254,84 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 13px 10px;
+  gap: 7px;
+  padding: 13px 9px;
   border-radius: 11px;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 12px;
-  border: 1px solid var(--navy);
-  background: var(--navy);
-  color: white;
+  font-weight: 800;
+  font-size: 11px;
+  text-align: center;
+  border: 1px solid #f1c65d;
+  background: linear-gradient(135deg, #ffe18a, #d99d2c);
+  color: #071421;
   min-height: 45px;
+  box-shadow: 0 3px 12px #00000055;
+  transition: .25s;
 }
 
-.btn.gold {
-  background: white;
-  color: var(--navy);
-  border-color: #d7c08d;
+.btn:hover {
+  background: linear-gradient(135deg, #fff0b8, #e8b63f);
+  transform: translateY(-2px);
 }
 
 .btn.wide {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
 }
+
+.btn.dark {
+  background: linear-gradient(135deg, #15334b, #071727);
+  color: var(--gold2);
+  border-color: var(--gold3);
+}
+
+/* RESEAUX ET AVANTAGES */
+
+.advantages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-top: 21px;
+  padding: 13px 0 4px;
+  border-top: 1px solid #a17a30;
+}
+
+.advantage {
+  text-align: center;
+  font-size: 9px;
+  color: white;
+  line-height: 1.5;
+}
+
+.advantage .symbol {
+  display: block;
+  color: var(--gold2);
+  font-size: 19px;
+  margin-bottom: 4px;
+}
+
+/* PIED DE CARTE */
 
 .footer {
   text-align: center;
-  padding: 0 20px 21px;
-  color: #8a929c;
+  padding: 14px 15px 17px;
+  color: var(--gold2);
   font-size: 10px;
-  letter-spacing: .5px;
+  letter-spacing: 1px;
+  background: #020914;
+  border-top: 1px solid #8c6b2c;
 }
+
+/* PERSONNALISATION */
 
 .edit {
   margin-top: 18px;
-  border-top: 1px solid var(--line);
-  padding-top: 16px;
+  border-top: 1px solid #80652d;
+  padding-top: 14px;
 }
 
 .edit summary {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--gold2);
   cursor: pointer;
   text-align: center;
 }
@@ -233,33 +345,40 @@ h1 {
 .fields input {
   width: 100%;
   padding: 11px;
-  border: 1px solid var(--line);
+  border: 1px solid #80652d;
   border-radius: 9px;
   font-size: 13px;
+  background: #10243a;
+  color: white;
+}
+
+.fields input::placeholder {
+  color: #aeb8c2;
 }
 
 .save {
   width: 100%;
   border: 0;
-  background: var(--gold);
-  color: #182b40;
-  padding: 12px;
+  background: linear-gradient(135deg, #ffe18a, #d99d2c);
+  color: #10243d;
+  padding: 13px;
   border-radius: 9px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 }
 
 .note {
   font-size: 10px;
-  color: var(--muted);
+  color: #c3cbd4;
   line-height: 1.5;
   margin: 9px 0 0;
 }
 
 @media(max-width:360px) {
-  .body { padding: 20px 17px; }
-  .top { padding-left: 16px; padding-right: 16px; }
-  .brand-name { font-size: 14px; }
+  .body { padding: 18px 15px; }
+  .top { padding-left: 15px; padding-right: 15px; }
+  .brand-name { font-size: 15px; }
+  h1 { font-size: 22px; }
 }
 </style>
 </head>
@@ -267,6 +386,8 @@ h1 {
 <body>
 
 <main class="card">
+
+<!-- EN-TETE DE LA CARTE -->
 
 <header class="top">
 
@@ -276,7 +397,7 @@ h1 {
       class="logo"
       id="companyLogo"
       src="logo-king.png"
-      alt="Logo KING DIAGNOSTICS"
+      alt="KING DIAGNOSTICS"
       onerror="this.style.display='none'"
     >
 
@@ -287,17 +408,29 @@ h1 {
 
   </div>
 
-  <img class="avatar" id="photo" alt="Photo professionnelle">
+  <img
+    class="avatar"
+    id="photo"
+    alt="Photo professionnelle"
+  >
 
-  <h1 id="fullName">Nom Prénom</h1>
+  <h1 id="fullName">MAICHI Maamar</h1>
 
-  <p class="role" id="jobTitle">Poste occupé</p>
+  <p class="role" id="jobTitle">
+    Directeur des Opérations
+  </p>
+
+  <div class="subtitle" id="jobSubtitle">
+    Operations Director
+  </div>
 
   <div class="slogan">
     Innovation • Qualité • Performance
   </div>
 
 </header>
+
+<!-- INFORMATIONS DE CONTACT -->
 
 <section class="body">
 
@@ -307,7 +440,9 @@ h1 {
       <div class="ico">☎</div>
       <div>
         <span>Téléphone</span>
-        <a id="phoneLink" href="tel:+213">+213</a>
+        <a id="phoneLink" href="tel:+213550123456">
+          +213 550 12 34 56
+        </a>
       </div>
     </div>
 
@@ -315,41 +450,84 @@ h1 {
       <div class="ico">✉</div>
       <div>
         <span>E-mail</span>
-        <a id="emailLink" href="mailto:">Adresse e-mail</a>
+        <a id="emailLink" href="mailto:maichi.maamar@king-diagnostics.com">
+          maichi.maamar@king-diagnostics.com
+        </a>
       </div>
     </div>
 
   </div>
 
+  <!-- BOUTONS -->
+
   <nav class="actions">
 
-    <a class="btn" id="saveContact" href="#">
+    <a
+      class="btn"
+      id="websiteBtn"
+      href="https://king-diagnostics.com"
+      target="_blank"
+      rel="noopener"
+    >
+      🌐 Visiter notre site web
+    </a>
+
+    <a
+      class="btn"
+      id="facebookBtn"
+      href="https://www.facebook.com/"
+      target="_blank"
+      rel="noopener"
+    >
+      f &nbsp; Suivre notre page Facebook
+    </a>
+
+    <a
+      class="btn dark wide"
+      id="saveContact"
+      href="#"
+    >
       ＋ Enregistrer le contact
-    </a>
-
-    <a class="btn gold" id="websiteBtn"
-       href="#" target="_blank" rel="noopener">
-      🌐 Site web
-    </a>
-
-    <a class="btn gold wide" id="facebookBtn"
-       href="#" target="_blank" rel="noopener">
-      f &nbsp; Page Facebook
     </a>
 
   </nav>
 
+  <!-- AVANTAGES -->
+
+  <div class="advantages">
+
+    <div class="advantage">
+      <span class="symbol">♢</span>
+      Qualité<br>Certifiée
+    </div>
+
+    <div class="advantage">
+      <span class="symbol">✧</span>
+      Innovation<br>Continue
+    </div>
+
+    <div class="advantage">
+      <span class="symbol">◇</span>
+      Partenariat<br>Durable
+    </div>
+
+  </div>
+
+  <!-- ADMINISTRATION DE LA CARTE -->
+
   <details class="edit">
 
     <summary>
-      Modifier les informations de cette carte
+      ⚙ Modifier les informations de la carte
     </summary>
 
     <div class="fields">
 
       <input id="editName" placeholder="Nom et prénom">
 
-      <input id="editJob" placeholder="Poste occupé">
+      <input id="editJob" placeholder="Fonction">
+
+      <input id="editSubtitle" placeholder="Fonction en anglais">
 
       <input id="editPhone" placeholder="Téléphone">
 
@@ -362,14 +540,14 @@ h1 {
       <input id="editPhoto" placeholder="URL de la photo">
 
       <button class="save" id="applyBtn" type="button">
-        Appliquer les modifications
+        Enregistrer les modifications
       </button>
 
     </div>
 
     <p class="note">
-      Les informations sont personnalisables pour chaque collaborateur.
-      Les modifications seront transmises à Google Sheets.
+      Les informations modifiées seront affichées sur la carte
+      et une demande d'enregistrement sera envoyée à Google Sheets.
     </p>
 
   </details>
@@ -377,45 +555,47 @@ h1 {
 </section>
 
 <footer class="footer">
-  KING DIAGNOSTICS · Carte professionnelle NFC
+  KING DIAGNOSTICS · Smart Diagnostics. Better Health.
 </footer>
 
 </main>
 
 <script>
 
-/* =====================================
-   CONFIGURATION GOOGLE APPS SCRIPT
-===================================== */
+/* ======================================
+   1. CONFIGURATION GOOGLE APPS SCRIPT
+====================================== */
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbxzaF2iEjI7ovvxS-xHNokPfx57pV3aBEW8WYLAj0htOpr5VRiuFSbT70vABOjHi8EB/exec";
 
 
-/* =====================================
-   LIENS ENTREPRISE
-===================================== */
+/* ======================================
+   2. LIENS DE L'ENTREPRISE
+====================================== */
 
 const COMPANY_WEBSITE = "https://king-diagnostics.com";
 
 const COMPANY_FACEBOOK = "https://www.facebook.com/";
 
 
-/* =====================================
-   INFORMATIONS DU COLLABORATEUR
-===================================== */
+/* ======================================
+   3. INFORMATIONS INITIALES
+====================================== */
 
 const params = new URLSearchParams(location.search);
 
 const defaults = {
 
-  nom: params.get("nom") || "Nom Prénom",
+  nom: params.get("nom") || "MAICHI Maamar",
 
-  poste: params.get("poste") || "Poste occupé",
+  poste: params.get("poste") || "Directeur des Opérations",
 
-  telephone: params.get("telephone") || "+213",
+  subtitle: params.get("subtitle") || "Operations Director",
 
-  email: params.get("email") || "",
+  telephone: params.get("telephone") || "+213 550 12 34 56",
+
+  email: params.get("email") || "maichi.maamar@king-diagnostics.com",
 
   site: params.get("site") || COMPANY_WEBSITE,
 
@@ -426,9 +606,9 @@ const defaults = {
 };
 
 
-/* =====================================
-   AFFICHAGE DES INFORMATIONS
-===================================== */
+/* ======================================
+   4. SECURISATION DES LIENS
+====================================== */
 
 function safeUrl(value) {
 
@@ -441,27 +621,42 @@ function safeUrl(value) {
 }
 
 
+/* ======================================
+   5. AFFICHAGE DE LA CARTE
+====================================== */
+
 function render(data) {
 
-  document.getElementById("fullName").textContent = data.nom;
+  document.getElementById("fullName").textContent =
+    data.nom;
 
-  document.getElementById("jobTitle").textContent = data.poste;
+  document.getElementById("jobTitle").textContent =
+    data.poste;
+
+  document.getElementById("jobSubtitle").textContent =
+    data.subtitle || "";
 
   const tel = document.getElementById("phoneLink");
 
   tel.textContent = data.telephone;
 
-  tel.href = "tel:" + data.telephone.replace(/[^\d+]/g, "");
+  tel.href = data.telephone
+    ? "tel:" + data.telephone.replace(/[^\d+]/g, "")
+    : "#";
 
   const mail = document.getElementById("emailLink");
 
   mail.textContent = data.email || "Non renseigné";
 
-  mail.href = data.email ? "mailto:" + data.email : "#";
+  mail.href = data.email
+    ? "mailto:" + data.email
+    : "#";
 
-  document.getElementById("websiteBtn").href = safeUrl(data.site);
+  document.getElementById("websiteBtn").href =
+    safeUrl(data.site);
 
-  document.getElementById("facebookBtn").href = safeUrl(data.facebook);
+  document.getElementById("facebookBtn").href =
+    safeUrl(data.facebook);
 
   const photo = document.getElementById("photo");
 
@@ -477,31 +672,28 @@ function render(data) {
 
   }
 
+  /* Création de la fiche contact */
+
   const vcf = [
-
     "BEGIN:VCARD",
-
     "VERSION:3.0",
-
     "FN:" + data.nom,
-
     "TITLE:" + data.poste,
-
     "TEL;TYPE=CELL:" + data.telephone,
-
     "EMAIL:" + data.email,
-
     "END:VCARD"
-
   ].join("\r\n");
 
-  const contactLink = document.getElementById("saveContact");
+  const contactLink =
+    document.getElementById("saveContact");
 
   if (contactLink.dataset.url) {
     URL.revokeObjectURL(contactLink.dataset.url);
   }
 
-  const blob = new Blob([vcf], {type:"text/vcard"});
+  const blob = new Blob([vcf], {
+    type: "text/vcard;charset=utf-8"
+  });
 
   const url = URL.createObjectURL(blob);
 
@@ -515,113 +707,124 @@ function render(data) {
 }
 
 
-/* =====================================
-   REMPLISSAGE DU FORMULAIRE
-===================================== */
+/* ======================================
+   6. REMPLISSAGE DU FORMULAIRE
+====================================== */
 
 function fillEditor(data) {
 
-  document.getElementById("editName").value = data.nom;
+  document.getElementById("editName").value =
+    data.nom;
 
-  document.getElementById("editJob").value = data.poste;
+  document.getElementById("editJob").value =
+    data.poste;
 
-  document.getElementById("editPhone").value = data.telephone;
+  document.getElementById("editSubtitle").value =
+    data.subtitle;
 
-  document.getElementById("editEmail").value = data.email;
+  document.getElementById("editPhone").value =
+    data.telephone;
 
-  document.getElementById("editWebsite").value = data.site;
+  document.getElementById("editEmail").value =
+    data.email;
 
-  document.getElementById("editFacebook").value = data.facebook;
+  document.getElementById("editWebsite").value =
+    data.site;
 
-  document.getElementById("editPhoto").value = data.photo;
+  document.getElementById("editFacebook").value =
+    data.facebook;
+
+  document.getElementById("editPhoto").value =
+    data.photo;
 
 }
 
 
-/* =====================================
-   INITIALISATION
-===================================== */
+/* ======================================
+   7. INITIALISATION
+====================================== */
 
 render(defaults);
 
 fillEditor(defaults);
 
 
-/* =====================================
-   ENREGISTREMENT ET ENVOI GOOGLE SHEETS
-===================================== */
+/* ======================================
+   8. ENREGISTREMENT GOOGLE SHEETS
+====================================== */
 
-document.getElementById("applyBtn").addEventListener("click", async () => {
+document.getElementById("applyBtn").addEventListener(
+  "click",
+  async function() {
 
-  const data = {
+    const data = {
 
-    nom: document.getElementById("editName").value.trim(),
+      nom: document.getElementById("editName").value.trim(),
 
-    poste: document.getElementById("editJob").value.trim(),
+      poste: document.getElementById("editJob").value.trim(),
 
-    telephone: document.getElementById("editPhone").value.trim(),
+      subtitle: document.getElementById("editSubtitle").value.trim(),
 
-    email: document.getElementById("editEmail").value.trim(),
+      telephone: document.getElementById("editPhone").value.trim(),
 
-    site: document.getElementById("editWebsite").value.trim(),
+      email: document.getElementById("editEmail").value.trim(),
 
-    facebook: document.getElementById("editFacebook").value.trim(),
+      site: document.getElementById("editWebsite").value.trim(),
 
-    photo: document.getElementById("editPhoto").value.trim()
+      facebook: document.getElementById("editFacebook").value.trim(),
 
-  };
+      photo: document.getElementById("editPhoto").value.trim()
 
-  render(data);
+    };
 
-  const q = new URLSearchParams({
+    /* Mise à jour immédiate de la carte */
 
-    nom: data.nom,
+    render(data);
 
-    poste: data.poste,
+    /* Mise à jour du lien individuel */
 
-    telephone: data.telephone,
+    const q = new URLSearchParams(data);
 
-    email: data.email,
+    history.replaceState(
+      null,
+      "",
+      "?" + q.toString()
+    );
 
-    site: data.site,
+    /* Envoi des données à Google Apps Script */
 
-    facebook: data.facebook,
+    try {
 
-    photo: data.photo
+      await fetch(SCRIPT_URL, {
 
-  });
+        method: "POST",
 
-  history.replaceState(null, "", "?" + q.toString());
+        mode: "no-cors",
 
-  try {
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
 
-    await fetch(SCRIPT_URL, {
+        body: JSON.stringify(data)
 
-      method: "POST",
+      });
 
-      mode: "no-cors",
+      alert(
+        "Requête envoyée. Vérifiez Google Sheets pour confirmer l'enregistrement."
+      );
 
-      headers: {
+    } catch(error) {
 
-        "Content-Type": "text/plain;charset=utf-8"
+      console.error("Erreur :", error);
 
-      },
+      alert(
+        "Erreur lors de l'envoi des informations."
+      );
 
-      body: JSON.stringify(data)
-
-    });
-
-    alert("Demande d'enregistrement envoyée.");
-
-  } catch (error) {
-
-    console.error("Erreur :", error);
-
-    alert("Erreur lors de l'envoi vers Google Sheets.");
+    }
 
   }
-
-});
+);
 
 </script>
 
