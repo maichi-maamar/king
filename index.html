@@ -3,828 +3,895 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#020914">
-<meta name="description" content="Carte professionnelle NFC - KING DIAGNOSTICS">
-<title>MAICHI Maamar | KING DIAGNOSTICS</title>
+<meta name="theme-color" content="#071525">
+
+<title>KING DIAGNOSTICS | Carte professionnelle</title>
 
 <style>
 :root {
-  --navy: #020914;
-  --navy2: #071d32;
-  --navy3: #0b2942;
-  --gold: #e8b63f;
-  --gold2: #ffdf83;
-  --gold3: #a87922;
+  --navy: #071525;
+  --navy-light: #142b43;
+  --gold: #d6b46a;
   --white: #ffffff;
-  --muted: #c5cbd3;
+  --muted: #aab7c8;
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
   min-height: 100vh;
-  padding: 25px 12px;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(145deg,#020b16,#10243b);
   font-family: Arial, Helvetica, sans-serif;
   color: white;
-  background:
-    radial-gradient(ellipse at 15% 15%, #173b58 0%, transparent 42%),
-    radial-gradient(ellipse at 85% 85%, #142e45 0%, transparent 40%),
-    linear-gradient(145deg, #01050b, #06182a 55%, #020811);
 }
-
-/* CARTE PRINCIPALE */
 
 .card {
-  width: min(100%, 430px);
-  position: relative;
+  width: 100%;
+  max-width: 410px;
   overflow: hidden;
-  border-radius: 20px;
-  border: 1px solid #bd9237;
-  background: #04111e;
-  box-shadow:
-    0 0 20px #d5a53630,
-    0 25px 65px #000000a8;
-}
-
-/* EN-TETE */
-
-.top {
-  position: relative;
-  overflow: hidden;
+  border: 1px solid rgba(214,180,106,.65);
+  border-radius: 25px;
+  background: linear-gradient(160deg,#142b43,#071525 75%);
+  box-shadow: 0 20px 55px rgba(0,0,0,.5);
   text-align: center;
-  padding: 25px 22px 29px;
-  background:
-    radial-gradient(ellipse at 80% 20%, #16466a 0%, transparent 48%),
-    linear-gradient(120deg, #020710, #09243c 55%, #020914);
 }
 
-/* COURBES DOREES */
-
-.top::before {
-  content: "";
-  position: absolute;
-  width: 145%;
-  height: 110px;
-  left: -23%;
-  bottom: -63px;
-  border-top: 3px solid var(--gold);
-  border-radius: 50%;
-  transform: rotate(-9deg);
-  box-shadow: 0 -5px 15px #dba93330;
-  pointer-events: none;
+.top-line {
+  height: 5px;
+  background: linear-gradient(90deg,#9d793b,#f4d995,#9d793b);
 }
 
-.top::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--gold2),
-    var(--gold3),
-    transparent
-  );
-}
-
-/* LOGO */
-
-.brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 2;
+.header {
+  padding: 25px 20px 10px;
 }
 
 .logo {
-  width: 72px;
-  height: 72px;
+  width: 100px;
+  height: 80px;
   object-fit: contain;
-  background: #020914;
-  border: 1px solid var(--gold);
-  border-radius: 12px;
-  padding: 4px;
+  margin-bottom: 12px;
 }
 
-.brand-name {
-  text-align: left;
-  font-weight: 900;
-  letter-spacing: 1.1px;
-  font-size: 18px;
-  line-height: 1.3;
-}
-
-.brand-name small {
-  display: block;
-  color: var(--gold2);
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  margin-top: 5px;
-}
-
-/* PHOTO */
-
-.avatar {
-  width: 108px;
-  height: 108px;
-  border-radius: 50%;
-  border: 3px solid var(--gold);
-  object-fit: cover;
-  background: #10243d;
-  margin: 0 auto 13px;
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 0 18px #e8b63f55;
-}
-
-/* NOM ET FONCTION */
-
-h1 {
-  font-size: 25px;
-  margin: 0 0 8px;
-  font-weight: 800;
-  color: white;
-  position: relative;
-  z-index: 2;
-}
-
-.role {
-  color: var(--gold2);
-  font-size: 14px;
+.company {
+  color: var(--gold);
+  font-size: 20px;
   font-weight: bold;
-  margin: 0;
-  position: relative;
-  z-index: 2;
+  letter-spacing: 2px;
 }
 
-.subtitle {
-  color: #d5dce4;
-  font-size: 12px;
-  font-style: italic;
-  margin-top: 5px;
-  position: relative;
-  z-index: 2;
-}
-
-.slogan {
+.company-subtitle {
+  color: var(--muted);
   font-size: 10px;
-  letter-spacing: 1.5px;
-  color: var(--gold2);
-  margin-top: 20px;
-  text-transform: uppercase;
-  position: relative;
-  z-index: 2;
+  letter-spacing: 2px;
+  margin-top: 6px;
 }
 
-/* CONTENU */
-
-.body {
-  padding: 23px 22px;
-  background:
-    radial-gradient(ellipse at 50% 0%, #102e47, transparent 65%),
-    linear-gradient(145deg, #061727, #020b15);
+.photo-container {
+  width: 145px;
+  height: 145px;
+  margin: 22px auto 15px;
+  padding: 4px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  background: var(--navy);
 }
 
-/* COORDONNEES */
+.photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #20364c;
+}
+
+.person-name {
+  margin: 12px 15px 7px;
+  font-size: 25px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.person-job {
+  margin: 0 12px 7px;
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.person-subtitle {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.separator {
+  width: 65%;
+  height: 1px;
+  margin: 22px auto;
+  background: linear-gradient(90deg,transparent,var(--gold),transparent);
+}
 
 .contact {
-  display: grid;
-  gap: 11px;
-  margin-bottom: 19px;
+  padding: 0 25px;
+  text-align: left;
 }
 
-.info {
+.contact-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 11px 12px;
-  border: 1px solid #80652d;
-  border-radius: 12px;
-  background: linear-gradient(120deg, #102a40, #061421);
+  gap: 13px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
-.ico {
-  width: 37px;
-  height: 37px;
-  flex: 0 0 37px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #ffdf79, #c18b27);
-  color: #06111e;
-  display: grid;
-  place-items: center;
+.contact-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(214,180,106,.5);
+  border-radius: 10px;
+  color: var(--gold);
   font-size: 17px;
-  font-weight: bold;
 }
 
-.info span {
-  display: block;
-  color: var(--gold2);
-  font-size: 10px;
-  margin-bottom: 4px;
-}
-
-.info a {
-  font-size: 12px;
+.contact a {
   color: white;
   text-decoration: none;
   overflow-wrap: anywhere;
 }
 
-/* BOUTONS */
-
-.actions {
+.buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 11px;
+  padding: 12px 23px 22px;
 }
 
-.btn {
+.action {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  padding: 13px 9px;
-  border-radius: 11px;
+  min-height: 43px;
+  padding: 12px 7px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--gold);
   text-decoration: none;
-  font-weight: 800;
-  font-size: 11px;
-  text-align: center;
-  border: 1px solid #f1c65d;
-  background: linear-gradient(135deg, #ffe18a, #d99d2c);
-  color: #071421;
-  min-height: 45px;
-  box-shadow: 0 3px 12px #00000055;
-  transition: .25s;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-.btn:hover {
-  background: linear-gradient(135deg, #fff0b8, #e8b63f);
-  transform: translateY(-2px);
+.action.primary {
+  background: linear-gradient(120deg,#d6b46a,#f1d89e);
+  color: #102035;
+  border: none;
 }
 
-.btn.wide {
-  grid-column: 1 / -1;
+.action:hover {
+  opacity: .85;
 }
-
-.btn.dark {
-  background: linear-gradient(135deg, #15334b, #071727);
-  color: var(--gold2);
-  border-color: var(--gold3);
-}
-
-/* RESEAUX ET AVANTAGES */
-
-.advantages {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  margin-top: 21px;
-  padding: 13px 0 4px;
-  border-top: 1px solid #a17a30;
-}
-
-.advantage {
-  text-align: center;
-  font-size: 9px;
-  color: white;
-  line-height: 1.5;
-}
-
-.advantage .symbol {
-  display: block;
-  color: var(--gold2);
-  font-size: 19px;
-  margin-bottom: 4px;
-}
-
-/* PIED DE CARTE */
 
 .footer {
-  text-align: center;
-  padding: 14px 15px 17px;
-  color: var(--gold2);
+  padding: 16px;
+  border-top: 1px solid rgba(214,180,106,.25);
+  color: var(--muted);
   font-size: 10px;
-  letter-spacing: 1px;
-  background: #020914;
-  border-top: 1px solid #8c6b2c;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
 }
 
-/* PERSONNALISATION */
-
-.edit {
-  margin-top: 18px;
-  border-top: 1px solid #80652d;
-  padding-top: 14px;
+.footer strong {
+  color: var(--gold);
 }
 
-.edit summary {
-  font-size: 12px;
-  color: var(--gold2);
-  cursor: pointer;
-  text-align: center;
-}
-
-.fields {
-  display: grid;
-  gap: 9px;
-  margin-top: 13px;
-}
-
-.fields input {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #80652d;
-  border-radius: 9px;
+.message {
+  padding: 30px 22px;
+  color: var(--muted);
   font-size: 13px;
-  background: #10243a;
-  color: white;
+  line-height: 1.7;
 }
 
-.fields input::placeholder {
-  color: #aeb8c2;
+.search-box {
+  padding: 28px 22px;
 }
 
-.save {
+.search-box h2 {
+  margin-bottom: 12px;
+  color: var(--gold);
+  font-size: 19px;
+}
+
+.search-box p {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.search-box input {
   width: 100%;
-  border: 0;
-  background: linear-gradient(135deg, #ffe18a, #d99d2c);
-  color: #10243d;
-  padding: 13px;
-  border-radius: 9px;
-  font-weight: 800;
+  padding: 14px;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  outline: none;
+  background: #0b1b2c;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.search-box button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--gold);
+  color: #071525;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.note {
-  font-size: 10px;
-  color: #c3cbd4;
-  line-height: 1.5;
-  margin: 9px 0 0;
+.hidden {
+  display: none !important;
 }
 
 @media(max-width:360px) {
-  .body { padding: 18px 15px; }
-  .top { padding-left: 15px; padding-right: 15px; }
-  .brand-name { font-size: 15px; }
-  h1 { font-size: 22px; }
+  .person-name { font-size: 21px; }
+  .buttons { padding-left: 15px; padding-right: 15px; }
 }
 </style>
 </head>
 
 <body>
 
-<main class="card">
+<div class="card">
 
-<!-- EN-TETE DE LA CARTE -->
+  <div class="top-line"></div>
 
-<header class="top">
+  <!-- CHARGEMENT -->
+  <div id="loading" class="message">
+    Chargement de votre carte professionnelle...
+  </div>
 
-  <div class="brand">
+  <!-- RECHERCHE MANUELLE -->
+  <div id="search-section" class="search-box hidden">
 
-    <img
-      class="logo"
-      id="companyLogo"
-      src="logo-king.png"
-      alt="KING DIAGNOSTICS"
-      onerror="this.style.display='none'"
+    <h2>KING DIAGNOSTICS</h2>
+
+    <p>Veuillez saisir votre code personnel</p>
+
+    <input
+      id="personCode"
+      type="text"
+      placeholder="Exemple : KD001"
+      maxlength="30"
+      autocomplete="off"
     >
 
-    <div class="brand-name">
-      KING DIAGNOSTICS
-      <small>DISPOSITIFS MÉDICAUX</small>
-    </div>
+    <button onclick="loadPerson()">
+      Afficher ma carte
+    </button>
 
   </div>
 
-  <img
-    class="avatar"
-    id="photo"
-    alt="Photo professionnelle"
-  >
+  <!-- CARTE PERSONNELLE -->
+  <div id="profile" class="hidden">
 
-  <h1 id="fullName">MAICHI Maamar</h1>
+    <div class="header">
 
-  <p class="role" id="jobTitle">
-    Directeur des Opérations
-  </p>
+      <img
+        src="logo.png"
+        class="logo"
+        alt="Logo KING DIAGNOSTICS"
+        onerror="this.style.display='none'"
+      >
 
-  <div class="subtitle" id="jobSubtitle">
-    Operations Director
-  </div>
+      <div class="company">KING DIAGNOSTICS</div>
 
-  <div class="slogan">
-    Innovation • Qualité • Performance
-  </div>
-
-</header>
-
-<!-- INFORMATIONS DE CONTACT -->
-
-<section class="body">
-
-  <div class="contact">
-
-    <div class="info">
-      <div class="ico">☎</div>
-      <div>
-        <span>Téléphone</span>
-        <a id="phoneLink" href="tel:+213550123456">
-          +213 550 12 34 56
-        </a>
+      <div class="company-subtitle">
+        MEDICAL DIAGNOSTIC SOLUTIONS
       </div>
+
     </div>
 
-    <div class="info">
-      <div class="ico">✉</div>
-      <div>
-        <span>E-mail</span>
-        <a id="emailLink" href="mailto:maichi.maamar@king-diagnostics.com">
-          maichi.maamar@king-diagnostics.com
-        </a>
+    <div class="photo-container">
+
+      <img
+        id="photo"
+        class="photo"
+        src="photo-default.png"
+        alt="Photo du collaborateur"
+      >
+
+    </div>
+
+    <h1 id="name" class="person-name"></h1>
+
+    <div id="job" class="person-job"></div>
+
+    <div id="subtitle" class="person-subtitle"></div>
+
+    <div class="separator"></div>
+
+    <!-- COORDONNEES -->
+    <div class="contact">
+
+      <div class="contact-item" id="phone-row">
+
+        <div class="contact-icon">☎</div>
+
+        <a id="phone" href="#"></a>
+
       </div>
+
+      <div class="contact-item" id="email-row">
+
+        <div class="contact-icon">✉</div>
+
+        <a id="email" href="#"></a>
+
+      </div>
+
     </div>
 
-  </div>
+    <!-- BOUTONS -->
+    <div class="buttons">
 
-  <!-- BOUTONS -->
+      <a id="call-btn" class="action primary" href="#">
+        ☎ Appeler
+      </a>
 
-  <nav class="actions">
+      <a id="mail-btn" class="action" href="#">
+        ✉ E-mail
+      </a>
 
-    <a
-      class="btn"
-      id="websiteBtn"
-      href="https://king-diagnostics.com"
-      target="_blank"
-      rel="noopener"
-    >
-      🌐 Visiter notre site web
-    </a>
+      <a
+        id="website-btn"
+        class="action hidden"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        🌐 Site web
+      </a>
 
-    <a
-      class="btn"
-      id="facebookBtn"
-      href="https://www.facebook.com/"
-      target="_blank"
-      rel="noopener"
-    >
-      f &nbsp; Suivre notre page Facebook
-    </a>
+      <a
+        id="facebook-btn"
+        class="action hidden"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        f Facebook
+      </a>
 
-    <a
-      class="btn dark wide"
-      id="saveContact"
-      href="#"
-    >
-      ＋ Enregistrer le contact
-    </a>
+      <button
+        id="save-btn"
+        class="action"
+        onclick="saveContact()"
+      >
+        + Enregistrer
+      </button>
 
-  </nav>
-
-  <!-- AVANTAGES -->
-
-  <div class="advantages">
-
-    <div class="advantage">
-      <span class="symbol">♢</span>
-      Qualité<br>Certifiée
-    </div>
-
-    <div class="advantage">
-      <span class="symbol">✧</span>
-      Innovation<br>Continue
-    </div>
-
-    <div class="advantage">
-      <span class="symbol">◇</span>
-      Partenariat<br>Durable
-    </div>
-
-  </div>
-
-  <!-- ADMINISTRATION DE LA CARTE -->
-
-  <details class="edit">
-
-    <summary>
-      ⚙ Modifier les informations de la carte
-    </summary>
-
-    <div class="fields">
-
-      <input id="editName" placeholder="Nom et prénom">
-
-      <input id="editJob" placeholder="Fonction">
-
-      <input id="editSubtitle" placeholder="Fonction en anglais">
-
-      <input id="editPhone" placeholder="Téléphone">
-
-      <input id="editEmail" type="email" placeholder="Adresse e-mail">
-
-      <input id="editWebsite" placeholder="Lien du site web">
-
-      <input id="editFacebook" placeholder="Lien Facebook">
-
-      <input id="editPhoto" placeholder="URL de la photo">
-
-      <button class="save" id="applyBtn" type="button">
-        Enregistrer les modifications
+      <button
+        class="action"
+        onclick="shareCard()"
+      >
+        ↗ Partager
       </button>
 
     </div>
 
-    <p class="note">
-      Les informations modifiées seront affichées sur la carte
-      et une demande d'enregistrement sera envoyée à Google Sheets.
-    </p>
+    <div class="footer">
 
-  </details>
+      <strong>KING DIAGNOSTICS</strong>
 
-</section>
+      <br>
 
-<footer class="footer">
-  KING DIAGNOSTICS · Smart Diagnostics. Better Health.
-</footer>
+      YOUR TRUSTED DIAGNOSTIC PARTNER
 
-</main>
+    </div>
+
+  </div>
+
+  <!-- ERREUR -->
+  <div id="error" class="message hidden"></div>
+
+</div>
+
 
 <script>
 
-/* ======================================
-   1. CONFIGURATION GOOGLE APPS SCRIPT
-====================================== */
+/********************************************************
+ * 1. CONFIGURATION
+ ********************************************************/
 
-const SCRIPT_URL =
+const API_URL =
 "https://script.google.com/macros/s/AKfycbytxYJX70YcRdHKA0-GONrGmnxx2i_6fMDRu5SXf6KdyRociYqZWoRtSTgHsnBvVRtm/exec";
 
-
-/* ======================================
-   2. LIENS DE L'ENTREPRISE
-====================================== */
-
-const COMPANY_WEBSITE = "https://king-diagnostics.com";
-
-const COMPANY_FACEBOOK = "https://www.facebook.com/";
+let currentPerson = null;
+let requestTimer = null;
 
 
-/* ======================================
-   3. INFORMATIONS INITIALES
-====================================== */
+/********************************************************
+ * 2. OUTILS D'AFFICHAGE
+ ********************************************************/
 
-const params = new URLSearchParams(location.search);
+function show(id) {
+  document.getElementById(id).classList.remove("hidden");
+}
 
-const defaults = {
+function hide(id) {
+  document.getElementById(id).classList.add("hidden");
+}
 
-  nom: params.get("nom") || "MAICHI Maamar",
+function setText(id, value) {
+  document.getElementById(id).textContent = value || "";
+}
 
-  poste: params.get("poste") || "Directeur des Opérations",
+function getCodeFromURL() {
 
-  subtitle: params.get("subtitle") || "Operations Director",
+  const params = new URLSearchParams(
+    window.location.search
+  );
 
-  telephone: params.get("telephone") || "+213 550 12 34 56",
+  return (params.get("code") || "")
+    .trim()
+    .toUpperCase();
 
-  email: params.get("email") || "maichi.maamar@king-diagnostics.com",
-
-  site: params.get("site") || COMPANY_WEBSITE,
-
-  facebook: params.get("facebook") || COMPANY_FACEBOOK,
-
-  photo: params.get("photo") || ""
-
-};
+}
 
 
-/* ======================================
-   4. SECURISATION DES LIENS
-====================================== */
+/********************************************************
+ * 3. RECHERCHE MANUELLE
+ ********************************************************/
+
+function loadPerson() {
+
+  const code = document
+    .getElementById("personCode")
+    .value
+    .trim()
+    .toUpperCase();
+
+  if (!code) {
+    alert("Veuillez saisir votre code personnel.");
+    return;
+  }
+
+  if (!/^[A-Z0-9_-]{1,30}$/.test(code)) {
+    alert("Code personnel invalide.");
+    return;
+  }
+
+  fetchPerson(code);
+
+}
+
+
+/********************************************************
+ * 4. CONNEXION JSONP A GOOGLE APPS SCRIPT
+ ********************************************************/
+
+function fetchPerson(code) {
+
+  hide("profile");
+  hide("search-section");
+  hide("error");
+  show("loading");
+
+  // Nettoyer une ancienne requête
+  if (requestTimer) {
+    clearTimeout(requestTimer);
+  }
+
+  // Supprimer un ancien script JSONP
+  const oldScript = document.getElementById("google-jsonp");
+
+  if (oldScript) {
+    oldScript.remove();
+  }
+
+  // Définir le callback attendu par Code.gs
+  window.kingCardCallback = function(result) {
+
+    clearTimeout(requestTimer);
+
+    const script = document.getElementById("google-jsonp");
+
+    if (script) script.remove();
+
+    if (!result || result.success !== true) {
+
+      showError(
+        result && result.message
+          ? result.message
+          : "Collaborateur introuvable."
+      );
+
+      return;
+    }
+
+    currentPerson = result;
+
+    displayPerson(result);
+
+  };
+
+  // Créer le script JSONP
+  const script = document.createElement("script");
+
+  script.id = "google-jsonp";
+
+  script.src =
+    API_URL +
+    "?code=" +
+    encodeURIComponent(code) +
+    "&_=" +
+    Date.now();
+
+  script.onerror = function() {
+
+    clearTimeout(requestTimer);
+
+    showError(
+      "Impossible de contacter Google Apps Script. " +
+      "Vérifiez le déploiement et les autorisations."
+    );
+
+    script.remove();
+
+  };
+
+  // Délai de sécurité
+  requestTimer = setTimeout(function() {
+
+    script.remove();
+
+    showError(
+      "Le serveur ne répond pas. Veuillez réessayer."
+    );
+
+  }, 15000);
+
+  document.body.appendChild(script);
+
+}
+
+
+/********************************************************
+ * 5. AFFICHAGE DU PROFIL
+ ********************************************************/
+
+function displayPerson(p) {
+
+  // Correspondance exacte avec les champs de Code.gs
+
+  const name = p.nom || "";
+  const job = p.poste || "";
+  const subtitle = p.subtitle || "";
+  const phone = p.telephone || "";
+  const email = p.email || "";
+  const website = p.site || "";
+  const facebook = p.facebook || "";
+  const photo = p.photo || "";
+
+  // Nom et fonction
+  setText("name", name);
+  setText("job", job);
+  setText("subtitle", subtitle);
+
+  // Photo
+  const photoElement = document.getElementById("photo");
+
+  photoElement.onerror = function() {
+    this.onerror = null;
+    this.src = "photo-default.png";
+  };
+
+  photoElement.src = photo || "photo-default.png";
+
+  // Téléphone
+  const phoneElement = document.getElementById("phone");
+
+  phoneElement.textContent = phone;
+
+  phoneElement.href = phone
+    ? "tel:" + phone.replace(/[^\d+]/g, "")
+    : "#";
+
+  document.getElementById("call-btn").href =
+    phoneElement.href;
+
+  document.getElementById("phone-row").style.display =
+    phone ? "flex" : "none";
+
+  document.getElementById("call-btn").style.display =
+    phone ? "flex" : "none";
+
+  // E-mail
+  const emailElement = document.getElementById("email");
+
+  emailElement.textContent = email;
+
+  emailElement.href = email
+    ? "mailto:" + email
+    : "#";
+
+  document.getElementById("mail-btn").href =
+    emailElement.href;
+
+  document.getElementById("email-row").style.display =
+    email ? "flex" : "none";
+
+  document.getElementById("mail-btn").style.display =
+    email ? "flex" : "none";
+
+  // Site web
+  const websiteUrl = safeUrl(website);
+
+  const websiteButton =
+    document.getElementById("website-btn");
+
+  if (websiteUrl) {
+    websiteButton.href = websiteUrl;
+    show("website-btn");
+  } else {
+    hide("website-btn");
+  }
+
+  // Facebook
+  const facebookUrl = safeUrl(facebook);
+
+  const facebookButton =
+    document.getElementById("facebook-btn");
+
+  if (facebookUrl) {
+    facebookButton.href = facebookUrl;
+    show("facebook-btn");
+  } else {
+    hide("facebook-btn");
+  }
+
+  // Affichage final
+  hide("loading");
+  hide("search-section");
+  hide("error");
+  show("profile");
+
+  document.title =
+    name + " | KING DIAGNOSTICS";
+
+}
+
+
+/********************************************************
+ * 6. SECURISATION DES LIENS
+ ********************************************************/
 
 function safeUrl(value) {
 
-  if (!value) return "#";
+  if (!value) return "";
 
-  return /^https?:\/\//i.test(value)
-    ? value
-    : "https://" + value;
+  let url = String(value).trim();
+
+  if (!/^https?:\/\//i.test(url)) {
+    url = "https://" + url;
+  }
+
+  try {
+
+    const parsed = new URL(url);
+
+    if (
+      parsed.protocol === "https:" ||
+      parsed.protocol === "http:"
+    ) {
+      return parsed.href;
+    }
+
+  } catch (error) {
+
+    return "";
+
+  }
+
+  return "";
 
 }
 
 
-/* ======================================
-   5. AFFICHAGE DE LA CARTE
-====================================== */
+/********************************************************
+ * 7. GESTION DES ERREURS
+ ********************************************************/
 
-function render(data) {
+function showError(message) {
 
-  document.getElementById("fullName").textContent =
-    data.nom;
+  hide("loading");
+  hide("profile");
 
-  document.getElementById("jobTitle").textContent =
-    data.poste;
+  const errorElement =
+    document.getElementById("error");
 
-  document.getElementById("jobSubtitle").textContent =
-    data.subtitle || "";
+  errorElement.textContent = message;
 
-  const tel = document.getElementById("phoneLink");
+  show("error");
+  show("search-section");
 
-  tel.textContent = data.telephone;
+}
 
-  tel.href = data.telephone
-    ? "tel:" + data.telephone.replace(/[^\d+]/g, "")
-    : "#";
 
-  const mail = document.getElementById("emailLink");
+/********************************************************
+ * 8. ENREGISTRER LE CONTACT
+ ********************************************************/
 
-  mail.textContent = data.email || "Non renseigné";
+function saveContact() {
 
-  mail.href = data.email
-    ? "mailto:" + data.email
-    : "#";
+  if (!currentPerson) return;
 
-  document.getElementById("websiteBtn").href =
-    safeUrl(data.site);
+  const p = currentPerson;
 
-  document.getElementById("facebookBtn").href =
-    safeUrl(data.facebook);
+  function escapeVcard(value) {
 
-  const photo = document.getElementById("photo");
-
-  if (data.photo) {
-
-    photo.src = data.photo;
-
-    photo.style.display = "block";
-
-  } else {
-
-    photo.style.display = "none";
+    return String(value || "")
+      .replace(/\\/g, "\\\\")
+      .replace(/\n/g, "\\n")
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;");
 
   }
 
-  /* Création de la fiche contact */
+  const vcard = [
 
-  const vcf = [
     "BEGIN:VCARD",
     "VERSION:3.0",
-    "FN:" + data.nom,
-    "TITLE:" + data.poste,
-    "TEL;TYPE=CELL:" + data.telephone,
-    "EMAIL:" + data.email,
+
+    "FN:" + escapeVcard(p.nom),
+
+    "ORG:KING DIAGNOSTICS",
+
+    "TITLE:" + escapeVcard(p.poste),
+
+    p.telephone
+      ? "TEL;TYPE=CELL:" + escapeVcard(p.telephone)
+      : "",
+
+    p.email
+      ? "EMAIL:" + escapeVcard(p.email)
+      : "",
+
+    p.site
+      ? "URL:" + escapeVcard(p.site)
+      : "",
+
     "END:VCARD"
-  ].join("\r\n");
 
-  const contactLink =
-    document.getElementById("saveContact");
+  ].filter(Boolean).join("\r\n");
 
-  if (contactLink.dataset.url) {
-    URL.revokeObjectURL(contactLink.dataset.url);
-  }
-
-  const blob = new Blob([vcf], {
-    type: "text/vcard;charset=utf-8"
-  });
+  const blob = new Blob(
+    [vcard],
+    {type: "text/vcard;charset=utf-8"}
+  );
 
   const url = URL.createObjectURL(blob);
 
-  contactLink.href = url;
+  const link = document.createElement("a");
 
-  contactLink.dataset.url = url;
+  link.href = url;
 
-  contactLink.download =
-    data.nom.replace(/\s+/g, "_") + ".vcf";
+  link.download =
+    (p.nom || "contact")
+      .replace(/[^\w-]+/g, "_") + ".vcf";
 
-}
+  document.body.appendChild(link);
 
+  link.click();
 
-/* ======================================
-   6. REMPLISSAGE DU FORMULAIRE
-====================================== */
+  link.remove();
 
-function fillEditor(data) {
-
-  document.getElementById("editName").value =
-    data.nom;
-
-  document.getElementById("editJob").value =
-    data.poste;
-
-  document.getElementById("editSubtitle").value =
-    data.subtitle;
-
-  document.getElementById("editPhone").value =
-    data.telephone;
-
-  document.getElementById("editEmail").value =
-    data.email;
-
-  document.getElementById("editWebsite").value =
-    data.site;
-
-  document.getElementById("editFacebook").value =
-    data.facebook;
-
-  document.getElementById("editPhoto").value =
-    data.photo;
+  setTimeout(function() {
+    URL.revokeObjectURL(url);
+  }, 1000);
 
 }
 
 
-/* ======================================
-   7. INITIALISATION
-====================================== */
+/********************************************************
+ * 9. PARTAGER LA CARTE
+ ********************************************************/
 
-render(defaults);
+async function shareCard() {
 
-fillEditor(defaults);
+  const shareData = {
+    title: document.title,
+    text: "Carte professionnelle KING DIAGNOSTICS",
+    url: window.location.href
+  };
 
+  try {
 
-/* ======================================
-   8. ENREGISTREMENT GOOGLE SHEETS
-====================================== */
+    if (navigator.share) {
 
-document.getElementById("applyBtn").addEventListener(
-  "click",
-  async function() {
+      await navigator.share(shareData);
 
-    const data = {
+    } else if (navigator.clipboard) {
 
-      nom: document.getElementById("editName").value.trim(),
-
-      poste: document.getElementById("editJob").value.trim(),
-
-      subtitle: document.getElementById("editSubtitle").value.trim(),
-
-      telephone: document.getElementById("editPhone").value.trim(),
-
-      email: document.getElementById("editEmail").value.trim(),
-
-      site: document.getElementById("editWebsite").value.trim(),
-
-      facebook: document.getElementById("editFacebook").value.trim(),
-
-      photo: document.getElementById("editPhoto").value.trim()
-
-    };
-
-    /* Mise à jour immédiate de la carte */
-
-    render(data);
-
-    /* Mise à jour du lien individuel */
-
-    const q = new URLSearchParams(data);
-
-    history.replaceState(
-      null,
-      "",
-      "?" + q.toString()
-    );
-
-    /* Envoi des données à Google Apps Script */
-
-    try {
-
-      await fetch(SCRIPT_URL, {
-
-        method: "POST",
-
-        mode: "no-cors",
-
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-
-        body: JSON.stringify(data)
-
-      });
-
-      alert(
-        "Requête envoyée. Vérifiez Google Sheets pour confirmer l'enregistrement."
+      await navigator.clipboard.writeText(
+        window.location.href
       );
 
-    } catch(error) {
+      alert("Lien de la carte copié.");
 
-      console.error("Erreur :", error);
+    } else {
 
-      alert(
-        "Erreur lors de l'envoi des informations."
+      prompt(
+        "Copiez le lien de votre carte :",
+        window.location.href
       );
 
     }
 
+  } catch (error) {
+
+    if (error.name !== "AbortError") {
+      alert("Impossible de partager le lien.");
+    }
+
   }
-);
+
+}
+
+
+/********************************************************
+ * 10. ENTREE CLAVIER
+ ********************************************************/
+
+document
+  .getElementById("personCode")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+      loadPerson();
+    }
+
+  });
+
+
+/********************************************************
+ * 11. INITIALISATION NFC
+ ********************************************************/
+
+const initialCode = getCodeFromURL();
+
+if (initialCode) {
+
+  document.getElementById("personCode").value =
+    initialCode;
+
+  fetchPerson(initialCode);
+
+} else {
+
+  hide("loading");
+  show("search-section");
+
+}
 
 </script>
 
