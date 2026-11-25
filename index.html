@@ -12,6 +12,7 @@
   --navy: #071525;
   --navy-light: #142b43;
   --gold: #d6b46a;
+  --gold-light: #f5dfa5;
   --white: #ffffff;
   --muted: #aab7c8;
 }
@@ -28,7 +29,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg,#020b16,#10243b);
+  background:
+    radial-gradient(
+      ellipse at 15% 15%,
+      rgba(36,112,155,.38),
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 85% 80%,
+      rgba(214,180,106,.20),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #020812 0%,
+      #071a2d 48%,
+      #102d46 100%
+    );
+  background-attachment: fixed;
   font-family: Arial, Helvetica, sans-serif;
   color: white;
 }
@@ -37,16 +55,36 @@ body {
   width: 100%;
   max-width: 410px;
   overflow: hidden;
-  border: 1px solid rgba(214,180,106,.65);
-  border-radius: 25px;
-  background: linear-gradient(160deg,#142b43,#071525 75%);
-  box-shadow: 0 20px 55px rgba(0,0,0,.5);
+  border: 1px solid rgba(226,196,126,.72);
+  border-radius: 27px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(53,112,145,.30),
+      transparent 42%
+    ),
+    linear-gradient(
+      155deg,
+      rgba(20,48,72,.98),
+      rgba(4,17,31,.99) 72%
+    );
+  box-shadow:
+    0 28px 75px rgba(0,0,0,.62),
+    0 0 35px rgba(54,128,164,.13);
   text-align: center;
 }
 
 .top-line {
   height: 5px;
-  background: linear-gradient(90deg,#9d793b,#f4d995,#9d793b);
+  background: linear-gradient(
+    90deg,
+    #8c682f,
+    #f8e2a8,
+    #b78b43,
+    #f8e2a8,
+    #8c682f
+  );
+  box-shadow: 0 0 18px rgba(214,180,106,.35);
 }
 
 .header {
@@ -75,13 +113,21 @@ body {
 }
 
 .photo-container {
-  width: 145px;
-  height: 145px;
+  width: 150px;
+  height: 150px;
   margin: 22px auto 15px;
   padding: 4px;
-  border: 2px solid var(--gold);
+  border: 2px solid #e6c77f;
   border-radius: 50%;
-  background: var(--navy);
+  background: linear-gradient(
+    135deg,
+    #f5dfa5,
+    #98713b,
+    #f5dfa5
+  );
+  box-shadow:
+    0 0 0 7px rgba(214,180,106,.08),
+    0 0 32px rgba(214,180,106,.20);
 }
 
 .photo {
@@ -115,7 +161,12 @@ body {
   width: 65%;
   height: 1px;
   margin: 22px auto;
-  background: linear-gradient(90deg,transparent,var(--gold),transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold),
+    transparent
+  );
 }
 
 .contact {
@@ -143,6 +194,7 @@ body {
   border-radius: 10px;
   color: var(--gold);
   font-size: 17px;
+  background: rgba(255,255,255,.035);
 }
 
 .contact a {
@@ -167,23 +219,33 @@ body {
   padding: 12px 7px;
   border: 1px solid var(--gold);
   border-radius: 12px;
-  background: transparent;
+  background: rgba(255,255,255,.035);
   color: var(--gold);
   text-decoration: none;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
   font-family: inherit;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
 }
 
 .action.primary {
-  background: linear-gradient(120deg,#d6b46a,#f1d89e);
+  background: linear-gradient(
+    120deg,
+    #d6b46a,
+    #f1d89e
+  );
   color: #102035;
   border: none;
 }
 
 .action:hover {
-  opacity: .85;
+  opacity: .95;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0,0,0,.22);
 }
 
 .footer {
@@ -206,54 +268,23 @@ body {
   line-height: 1.7;
 }
 
-.search-box {
-  padding: 28px 22px;
-}
-
-.search-box h2 {
-  margin-bottom: 12px;
-  color: var(--gold);
-  font-size: 19px;
-}
-
-.search-box p {
-  margin-bottom: 16px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid var(--gold);
-  border-radius: 10px;
-  outline: none;
-  background: #0b1b2c;
-  color: white;
-  font-size: 16px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.search-box button {
-  width: 100%;
-  margin-top: 12px;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  background: var(--gold);
-  color: #071525;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .hidden {
   display: none !important;
 }
 
 @media(max-width:360px) {
-  .person-name { font-size: 21px; }
-  .buttons { padding-left: 15px; padding-right: 15px; }
+  .person-name {
+    font-size: 21px;
+  }
+
+  .buttons {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  body {
+    padding: 12px;
+  }
 }
 </style>
 </head>
@@ -269,27 +300,6 @@ body {
     Chargement de votre carte professionnelle...
   </div>
 
-  <!-- RECHERCHE MANUELLE -->
-  <div id="search-section" class="search-box hidden">
-
-    <h2>KING DIAGNOSTICS</h2>
-
-    <p>Veuillez saisir votre code personnel</p>
-
-    <input
-      id="personCode"
-      type="text"
-      placeholder="Exemple : KD001"
-      maxlength="30"
-      autocomplete="off"
-    >
-
-    <button onclick="loadPerson()">
-      Afficher ma carte
-    </button>
-
-  </div>
-
   <!-- CARTE PERSONNELLE -->
   <div id="profile" class="hidden">
 
@@ -302,14 +312,17 @@ body {
         onerror="this.style.display='none'"
       >
 
-      <div class="company">KING DIAGNOSTICS</div>
+      <div class="company">
+        KING DIAGNOSTICS
+      </div>
 
       <div class="company-subtitle">
-        MEDICAL DIAGNOSTIC SOLUTIONS
+        PRODUCTION DES TDR
       </div>
 
     </div>
 
+    <!-- PHOTO DU COLLABORATEUR -->
     <div class="photo-container">
 
       <img
@@ -321,6 +334,7 @@ body {
 
     </div>
 
+    <!-- IDENTITE -->
     <h1 id="name" class="person-name"></h1>
 
     <div id="job" class="person-job"></div>
@@ -350,14 +364,22 @@ body {
 
     </div>
 
-    <!-- BOUTONS -->
+    <!-- BOUTONS DE CONTACT ET RESEAUX -->
     <div class="buttons">
 
-      <a id="call-btn" class="action primary" href="#">
+      <a
+        id="call-btn"
+        class="action primary"
+        href="#"
+      >
         ☎ Appeler
       </a>
 
-      <a id="mail-btn" class="action" href="#">
+      <a
+        id="mail-btn"
+        class="action"
+        href="#"
+      >
         ✉ E-mail
       </a>
 
@@ -381,23 +403,9 @@ body {
         f Facebook
       </a>
 
-      <button
-        id="save-btn"
-        class="action"
-        onclick="saveContact()"
-      >
-        + Enregistrer
-      </button>
-
-      <button
-        class="action"
-        onclick="shareCard()"
-      >
-        ↗ Partager
-      </button>
-
     </div>
 
+    <!-- PIED DE CARTE -->
     <div class="footer">
 
       <strong>KING DIAGNOSTICS</strong>
@@ -419,7 +427,7 @@ body {
 <script>
 
 /********************************************************
- * 1. CONFIGURATION
+ * 1. CONFIGURATION GOOGLE APPS SCRIPT
  ********************************************************/
 
 const API_URL =
@@ -445,6 +453,11 @@ function setText(id, value) {
   document.getElementById(id).textContent = value || "";
 }
 
+
+/********************************************************
+ * 3. RECUPERATION DU CODE NFC
+ ********************************************************/
+
 function getCodeFromURL() {
 
   const params = new URLSearchParams(
@@ -459,40 +472,12 @@ function getCodeFromURL() {
 
 
 /********************************************************
- * 3. RECHERCHE MANUELLE
- ********************************************************/
-
-function loadPerson() {
-
-  const code = document
-    .getElementById("personCode")
-    .value
-    .trim()
-    .toUpperCase();
-
-  if (!code) {
-    alert("Veuillez saisir votre code personnel.");
-    return;
-  }
-
-  if (!/^[A-Z0-9_-]{1,30}$/.test(code)) {
-    alert("Code personnel invalide.");
-    return;
-  }
-
-  fetchPerson(code);
-
-}
-
-
-/********************************************************
  * 4. CONNEXION JSONP A GOOGLE APPS SCRIPT
  ********************************************************/
 
 function fetchPerson(code) {
 
   hide("profile");
-  hide("search-section");
   hide("error");
   show("loading");
 
@@ -515,7 +500,9 @@ function fetchPerson(code) {
 
     const script = document.getElementById("google-jsonp");
 
-    if (script) script.remove();
+    if (script) {
+      script.remove();
+    }
 
     if (!result || result.success !== true) {
 
@@ -534,7 +521,8 @@ function fetchPerson(code) {
 
   };
 
-  // Créer le script JSONP
+
+  // Création du script JSONP
   const script = document.createElement("script");
 
   script.id = "google-jsonp";
@@ -559,6 +547,7 @@ function fetchPerson(code) {
 
   };
 
+
   // Délai de sécurité
   requestTimer = setTimeout(function() {
 
@@ -581,7 +570,7 @@ function fetchPerson(code) {
 
 function displayPerson(p) {
 
-  // Correspondance exacte avec les champs de Code.gs
+  // Correspondance avec les champs de Code.gs
 
   const name = p.nom || "";
   const job = p.poste || "";
@@ -592,12 +581,14 @@ function displayPerson(p) {
   const facebook = p.facebook || "";
   const photo = p.photo || "";
 
+
   // Nom et fonction
   setText("name", name);
   setText("job", job);
   setText("subtitle", subtitle);
 
-  // Photo
+
+  // Photo du collaborateur
   const photoElement = document.getElementById("photo");
 
   photoElement.onerror = function() {
@@ -606,6 +597,7 @@ function displayPerson(p) {
   };
 
   photoElement.src = photo || "photo-default.png";
+
 
   // Téléphone
   const phoneElement = document.getElementById("phone");
@@ -616,14 +608,15 @@ function displayPerson(p) {
     ? "tel:" + phone.replace(/[^\d+]/g, "")
     : "#";
 
-  document.getElementById("call-btn").href =
-    phoneElement.href;
-
   document.getElementById("phone-row").style.display =
     phone ? "flex" : "none";
 
+  document.getElementById("call-btn").href =
+    phoneElement.href;
+
   document.getElementById("call-btn").style.display =
     phone ? "flex" : "none";
+
 
   // E-mail
   const emailElement = document.getElementById("email");
@@ -634,14 +627,15 @@ function displayPerson(p) {
     ? "mailto:" + email
     : "#";
 
-  document.getElementById("mail-btn").href =
-    emailElement.href;
-
   document.getElementById("email-row").style.display =
     email ? "flex" : "none";
 
+  document.getElementById("mail-btn").href =
+    emailElement.href;
+
   document.getElementById("mail-btn").style.display =
     email ? "flex" : "none";
+
 
   // Site web
   const websiteUrl = safeUrl(website);
@@ -650,11 +644,16 @@ function displayPerson(p) {
     document.getElementById("website-btn");
 
   if (websiteUrl) {
+
     websiteButton.href = websiteUrl;
     show("website-btn");
+
   } else {
+
     hide("website-btn");
+
   }
+
 
   // Facebook
   const facebookUrl = safeUrl(facebook);
@@ -663,15 +662,19 @@ function displayPerson(p) {
     document.getElementById("facebook-btn");
 
   if (facebookUrl) {
+
     facebookButton.href = facebookUrl;
     show("facebook-btn");
+
   } else {
+
     hide("facebook-btn");
+
   }
+
 
   // Affichage final
   hide("loading");
-  hide("search-section");
   hide("error");
   show("profile");
 
@@ -687,7 +690,9 @@ function displayPerson(p) {
 
 function safeUrl(value) {
 
-  if (!value) return "";
+  if (!value) {
+    return "";
+  }
 
   let url = String(value).trim();
 
@@ -732,164 +737,31 @@ function showError(message) {
   errorElement.textContent = message;
 
   show("error");
-  show("search-section");
 
 }
 
 
 /********************************************************
- * 8. ENREGISTRER LE CONTACT
- ********************************************************/
-
-function saveContact() {
-
-  if (!currentPerson) return;
-
-  const p = currentPerson;
-
-  function escapeVcard(value) {
-
-    return String(value || "")
-      .replace(/\\/g, "\\\\")
-      .replace(/\n/g, "\\n")
-      .replace(/,/g, "\\,")
-      .replace(/;/g, "\\;");
-
-  }
-
-  const vcard = [
-
-    "BEGIN:VCARD",
-    "VERSION:3.0",
-
-    "FN:" + escapeVcard(p.nom),
-
-    "ORG:KING DIAGNOSTICS",
-
-    "TITLE:" + escapeVcard(p.poste),
-
-    p.telephone
-      ? "TEL;TYPE=CELL:" + escapeVcard(p.telephone)
-      : "",
-
-    p.email
-      ? "EMAIL:" + escapeVcard(p.email)
-      : "",
-
-    p.site
-      ? "URL:" + escapeVcard(p.site)
-      : "",
-
-    "END:VCARD"
-
-  ].filter(Boolean).join("\r\n");
-
-  const blob = new Blob(
-    [vcard],
-    {type: "text/vcard;charset=utf-8"}
-  );
-
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-
-  link.href = url;
-
-  link.download =
-    (p.nom || "contact")
-      .replace(/[^\w-]+/g, "_") + ".vcf";
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  link.remove();
-
-  setTimeout(function() {
-    URL.revokeObjectURL(url);
-  }, 1000);
-
-}
-
-
-/********************************************************
- * 9. PARTAGER LA CARTE
- ********************************************************/
-
-async function shareCard() {
-
-  const shareData = {
-    title: document.title,
-    text: "Carte professionnelle KING DIAGNOSTICS",
-    url: window.location.href
-  };
-
-  try {
-
-    if (navigator.share) {
-
-      await navigator.share(shareData);
-
-    } else if (navigator.clipboard) {
-
-      await navigator.clipboard.writeText(
-        window.location.href
-      );
-
-      alert("Lien de la carte copié.");
-
-    } else {
-
-      prompt(
-        "Copiez le lien de votre carte :",
-        window.location.href
-      );
-
-    }
-
-  } catch (error) {
-
-    if (error.name !== "AbortError") {
-      alert("Impossible de partager le lien.");
-    }
-
-  }
-
-}
-
-
-/********************************************************
- * 10. ENTREE CLAVIER
- ********************************************************/
-
-document
-  .getElementById("personCode")
-  .addEventListener("keydown", function(event) {
-
-    if (event.key === "Enter") {
-      loadPerson();
-    }
-
-  });
-
-
-/********************************************************
- * 11. INITIALISATION NFC
+ * 8. INITIALISATION AUTOMATIQUE NFC
  ********************************************************/
 
 const initialCode = getCodeFromURL();
 
 if (initialCode) {
 
-  document.getElementById("personCode").value =
-    initialCode;
-
   fetchPerson(initialCode);
 
 } else {
 
   hide("loading");
-  show("search-section");
+
+  const errorElement =
+    document.getElementById("error");
+
+  errorElement.textContent =
+    "Carte non identifiée. Veuillez scanner votre carte NFC personnelle.";
+
+  show("error");
 
 }
 
